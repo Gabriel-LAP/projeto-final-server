@@ -1,9 +1,12 @@
 import mongoose from "mongoose"
+import dotenv from 'dotenv';
 
-const dbUser = PROCESS.env.DB_USER
-const dbPassword = PROCESS.env.DB_PASSWORD
+dotenv.config();
 
-mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.ii1tyrp.mongodb.net/?retryWrites=true&w=majority`);
+const dbUser = process.env.DB_USER
+const dbPassword = process.env.DB_PASS
+
+mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.ii1tyrp.mongodb.net/`);
 
 let db = mongoose.connection;
 

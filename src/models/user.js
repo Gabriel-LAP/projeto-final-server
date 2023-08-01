@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
         country: { type: String, required: true },
 
     }
+
 );
 
 const users = mongoose.model('users', userSchema);
