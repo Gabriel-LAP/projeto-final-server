@@ -23,6 +23,20 @@ class ClientController {
 
     }
 
+    static listClientByCpf = (req, res) => {
+        const cpf = req.body.cpf;
+
+        clients.find({ cpf: cpf })
+            .exec()
+            .then((client) => {
+                res.status(200).json(client)
+            })
+            .catch((err) => {
+                res.status(400).send({ message: `${err.message} - CPF do Cliente não localizado.` })
+            })
+
+    }
+
     static async registerClient(req, res) {
         const {
             name,

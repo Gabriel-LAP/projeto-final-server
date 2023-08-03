@@ -11,6 +11,7 @@ router
     .get("/users/:id", UserController.checkToken, UserController.acessPrivateRoute)
     .get("/users/list/:id", UserController.listUsersById)
     .get("/users/list/client/all", ClientController.listAllClients)
+    .get("/users/list/client/cpf", ClientController.listClientByCpf)
     .get("/users/list/client/:id", ClientController.listClientById)
 
     .post("/users/login", UserController.loginUser)
