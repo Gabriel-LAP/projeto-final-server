@@ -1,9 +1,10 @@
-import clients from '../models/Client'
+import clients from '../models/Client.js'
+import { validateClient } from '../middlewares/validateClient.js'
 
-class clientController {
+class ClientController {
     static listAllClients = (req, res) => {
         clients.find()
-            .exec().then((users) => {
+            .exec().then((clients) => {
                 res.status(200).json(clients)
             })
     }
@@ -13,8 +14,8 @@ class clientController {
 
         clients.findById(id)
             .exec()
-            .then((user) => {
-                res.status(200).json(clients)
+            .then((client) => {
+                res.status(200).json(client)
             })
             .catch((err) => {
                 res.status(400).send({ message: `${err.message} - Id do Cliente não localizado.` })
@@ -31,7 +32,7 @@ class clientController {
             type = 'cliente'
         } = req.body;
 
-        const validationErrors = validateUser(req.body);
+        const validationErrors = validateClient(req.body);
         if (validationErrors.length > 0) {
             return res.status(422).json({ errors: validationErrors });
         }
@@ -68,7 +69,7 @@ class clientController {
         const id = req.params.id;
 
         clients.findByIdAndUpdate(id, { $set: req.body })
-            .then((clients) => {
+            .then((client) => {
                 res.status(200).send({ message: 'Cliente atualizado com sucesso' })
             })
             .catch((err) => {
@@ -77,7 +78,7 @@ class clientController {
 
     }
 
-    static deleteUser = (req, res) => {
+    static deleteClient = (req, res) => {
         const id = req.params.id;
 
         clients.findByIdAndDelete(id)
@@ -91,4 +92,4 @@ class clientController {
     }
 }
 
-export default clientController
+export default ClientController

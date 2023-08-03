@@ -1,5 +1,5 @@
 import express from "express";
-import users from "./usersRoutes.js";
+import router from "./allRoutes.js";
 
 
 /** Essa função é responsável por configurar as rotas do 
@@ -11,7 +11,7 @@ const routes = (app) => {
 
     app.use(
         express.json(),
-        users
+        router
 
 
     )

@@ -3,7 +3,7 @@ function validateClient(client) {
     const requiredFields = [
         { field: "name", message: "O nome é obrigatório!" },
         { field: "email", message: "O email é obrigatório!" },
-        { field: "cpf", message: "A senha é obrigatória!" },
+        { field: "cpf", message: "O cpf é obrigatório!" },
         { field: "phone", message: "O telefone é obrigatório!" },
 
     ];
