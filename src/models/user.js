@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema(
         zipCode: { type: Number, required: true },
         city: { type: String, required: true },
         state: { type: String, required: true },
-        country: { type: String, required: true },
+        type: { type: String, required: true },
 
     }
 

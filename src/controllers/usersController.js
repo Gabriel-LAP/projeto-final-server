@@ -1,6 +1,7 @@
 import users from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { validateUser } from '../middlewares/validateUser.js';
 
 class UserController {
 
@@ -25,53 +26,31 @@ class UserController {
 
     }
 
-    static registerUser = async (req, res) => {
+    static async registerUser(req, res) {
         const {
             name,
             email,
             password,
-            confirmpassword,
+            confirmPassword,
             phone,
             adress,
             zipCode,
             city,
             state,
-            country
+            type = 'usuario'
         } = req.body;
 
-        // validations
-        const errors = [];
-        const requiredFields = [
-            { field: "name", message: "O nome é obrigatório!" },
-            { field: "email", message: "O email é obrigatório!" },
-            { field: "password", message: "A senha é obrigatória!" },
-            { field: "phone", message: "O telefone é obrigatório!" },
-            { field: "adress", message: "O endereço é obrigatório!" },
-            { field: "zipCode", message: "O CEP é obrigatório!" },
-            { field: "city", message: "A cidade é obrigatória!" },
-            { field: "state", message: "O estado é obrigatório!" },
-            { field: "country", message: "O país é obrigatório!" }
-        ];
-
-        requiredFields.forEach((field) => {
-            if (!req.body[field.field]) {
-                errors.push(field.message);
-            }
-        });
-
-        if (password !== confirmpassword) {
-            errors.push("A senha e a confirmação precisam ser iguais!");
-        }
-
-        if (errors.length > 0) {
-            return res.status(422).json({ errors });
+        const validationErrors = validateUser(req.body, confirmPassword);
+        if (validationErrors.length > 0) {
+            return res.status(422).json({ errors: validationErrors });
         }
 
         // check if user exists
         const userExists = await users.findOne({ email: email });
-
         if (userExists) {
-            return res.status(422).json({ msg: "Por favor, utilize outro e-mail!" });
+            return res
+                .status(422)
+                .json({ msg: "Por favor, utilize outro e-mail!" });
         }
 
         // create password
@@ -87,19 +66,19 @@ class UserController {
             zipCode,
             city,
             state,
-            country
-        })
+            type,
+        });
 
         try {
-            await user.save()
-                .then((user) => {
-                    res.status(201)
-                    res.send(user.toJSON())
-                })
+            await user.save().then((user) => {
+                res.status(201);
+                res.send(user.toJSON());
+            });
         } catch (err) {
-            return res.status(500).send({ message: `${err.message} - falha ao cadastrar usuário.` })
+            return res
+                .status(500)
+                .send({ message: `${err.message} - falha ao cadastrar usuário.` });
         }
-
     }
 
     static updateUser = (req, res) => {
