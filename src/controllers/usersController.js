@@ -26,12 +26,27 @@ class UserController {
 
     }
 
+    static listUsersByCpf = (req, res) => {
+        const cpf = req.body.cpf;
+
+        users.find({ cpf: cpf })
+            .exec()
+            .then((user) => {
+                res.status(200).json(user)
+            })
+            .catch((err) => {
+                res.status(400).send({ message: `${err.message} - CPF do Cliente não localizado.` })
+            })
+
+    }
+
     static async registerUser(req, res) {
         const {
             name,
             email,
             password,
             confirmPassword,
+            cpf,
             phone,
             adress,
             zipCode,
@@ -61,6 +76,7 @@ class UserController {
             name,
             email,
             password: passwordHash,
+            cpf,
             phone,
             adress,
             zipCode,

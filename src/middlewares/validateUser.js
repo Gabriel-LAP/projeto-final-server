@@ -4,6 +4,7 @@ function validateUser(user, confirmPassword) {
         { field: "name", message: "O nome é obrigatório!" },
         { field: "email", message: "O email é obrigatório!" },
         { field: "password", message: "A senha é obrigatória!" },
+        { field: "cpf", message: "O cpf é obrigatório!" },
         { field: "phone", message: "O telefone é obrigatório!" },
         { field: "adress", message: "O endereço é obrigatório!" },
         { field: "zipCode", message: "O CEP é obrigatório!" },
