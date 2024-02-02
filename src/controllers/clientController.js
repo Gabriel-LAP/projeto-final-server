@@ -24,7 +24,7 @@ class ClientController {
     }
 
     static listClientByCpf = (req, res) => {
-        const cpf = req.body.cpf;
+        const cpf = req.params.cpf;
 
         clients.find({ cpf: cpf })
             .exec()
@@ -37,12 +37,30 @@ class ClientController {
 
     }
 
+    static listClientByName = (req, res) => {
+        const name = req.req.name;
+
+        clients.find({ 'name': name })
+            .exec()
+            .then((client) => {
+                res.status(200).json(client)
+            })
+            .catch((err) => {
+                res.status(400).send({ message: `${err.message} - Nome do Cliente não localizado.` })
+            })
+    }
+
     static async registerClient(req, res) {
         const {
             name,
-            email,
             cpf,
             phone,
+            email,
+            address,
+            number,
+            zipCode,
+            city,
+            state,
             type = 'cliente'
         } = req.body;
 
@@ -61,9 +79,14 @@ class ClientController {
 
         const client = new clients({
             name,
-            email,
             cpf,
             phone,
+            email,
+            address,
+            number,
+            zipCode,
+            city,
+            state,
             type,
         });
 
@@ -84,7 +107,7 @@ class ClientController {
 
         clients.findByIdAndUpdate(id, { $set: req.body })
             .then((client) => {
-                res.status(200).send({ message: 'Cliente atualizado com sucesso' })
+                res.status(200).send({ message: `Cliente atualizado com sucesso`, client })
             })
             .catch((err) => {
                 res.status(500).send({ message: err.message })
