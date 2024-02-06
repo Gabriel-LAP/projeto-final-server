@@ -8,11 +8,14 @@ const userSchema = new mongoose.Schema(
         cpf: { type: String, required: true },
         password: { type: String, required: true },
         phone: { type: Number, required: true },
-        adress: { type: String, required: true },
-        zipCode: { type: Number, required: true },
+        address: { type: String, required: true },
+        number: { type: Number, required: true },
+        zipCode: { type: String, required: true },
         city: { type: String, required: true },
         state: { type: String, required: true },
         type: { type: String, required: true },
+        createdAt: { type: Date, default: Date.now }
+
 
     }
 
