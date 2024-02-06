@@ -26,6 +26,19 @@ class UserController {
 
     }
 
+    static listUserByName = (req, res) => {
+        const name = req.query.name;
+
+        users.findOne({ 'name': name })
+            .exec()
+            .then((user) => {
+                res.status(200).json(user)
+            })
+            .catch((err) => {
+                res.status(400).send({ message: `${err.message} - Nome do usuário não localizado.` })
+            })
+    }
+
     static listUsersByCpf = (req, res) => {
         const cpf = req.body.cpf;
 
@@ -48,7 +61,8 @@ class UserController {
             confirmPassword,
             cpf,
             phone,
-            adress,
+            address,
+            number,
             zipCode,
             city,
             state,
@@ -78,7 +92,8 @@ class UserController {
             password: passwordHash,
             cpf,
             phone,
-            adress,
+            address,
+            number,
             zipCode,
             city,
             state,
@@ -102,7 +117,7 @@ class UserController {
 
         users.findByIdAndUpdate(id, { $set: req.body })
             .then((user) => {
-                res.status(200).send({ message: 'Usuario atualizado com sucesso' })
+                res.status(200).send({ message: 'Usuario atualizado com sucesso', user })
             })
             .catch((err) => {
                 res.status(500).send({ message: err.message })
@@ -132,7 +147,7 @@ class UserController {
         }
 
         if (!password) {
-            return res.status(422).json({ msg: "A senha é obrigatória!" });
+            return res.status(422).json({ msg: "Usuário ou senha errado(a)!" });
         }
 
         const user = await users.findOne({ email })
@@ -155,10 +170,11 @@ class UserController {
                 {
                     id: user._id,
                 },
-                secret
+                secret,
+                // { expiresIn: "20s" }
             );
 
-            res.status(200).json({ msg: "Autenticação realizada com sucesso!", token });
+            res.status(200).json({ msg: "Autenticação realizada com sucesso!", token, user });
         } catch (error) {
             res.status(500).json({ msg: error });
         }
@@ -179,7 +195,7 @@ class UserController {
 
             next();
         } catch (err) {
-            res.status(400).json({ msg: "O Token é inválido!" });
+            res.status(401).json({ msg: "O Token é inválido!" });
         }
     }
 
