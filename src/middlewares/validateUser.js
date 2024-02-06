@@ -6,10 +6,12 @@ function validateUser(user, confirmPassword) {
         { field: "password", message: "A senha é obrigatória!" },
         { field: "cpf", message: "O cpf é obrigatório!" },
         { field: "phone", message: "O telefone é obrigatório!" },
-        { field: "adress", message: "O endereço é obrigatório!" },
+        { field: "address", message: "O endereço é obrigatório!" },
         { field: "zipCode", message: "O CEP é obrigatório!" },
         { field: "city", message: "A cidade é obrigatória!" },
         { field: "state", message: "O estado é obrigatório!" },
+        { field: "zipCode", message: "O CEP é obrigatório!" },
+
 
     ];
 
